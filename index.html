@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Team</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #FDFCF9; 
+            --text-main: #1A1A1A;
+            --text-muted: #555555;
+            --line-color: rgba(0, 0, 0, 0.1);
+            --brand-gradient: linear-gradient(135deg, #7b2cbf, #4361ee); 
+            --font-en-serif: 'Playfair Display', serif;
+            --font-ar-serif: 'Amiri', serif;
+            --font-sans: 'Inter', sans-serif;
+            transition: all 150ms ease-in-out;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0D0D0F; 
+            --text-main: #FDFCF9;
+            --text-muted: #A0A0A0;
+            --line-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-en-serif);
+            line-height: 1.6;
+            transition: background-color 150ms ease, color 150ms ease;
+        }
+
+        .switching { opacity: 0.7; transform: scale(0.995); }
+
+        .ar-text { display: none; font-family: var(--font-ar-serif); }
+        body.lang-ar { direction: rtl; }
+        body.lang-ar .en-text { display: none; }
+        body.lang-ar .ar-text { display: inline-block; }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2.5rem 5%;
+            border-bottom: 1px solid var(--line-color);
+        }
+
+        .logo-text {
+            font-size: 2.8rem;
+            font-family: var(--font-ar-serif);
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .controls button {
+            background: none; border: 1px solid var(--line-color);
+            color: var(--text-main); padding: 0.6rem 1.2rem;
+            cursor: pointer; font-family: var(--font-sans);
+            font-size: 0.75rem; text-transform: uppercase;
+            letter-spacing: 1px; margin-inline-start: 10px;
+            transition: all 150ms ease;
+        }
+
+        .hero { padding: 8rem 5%; border-bottom: 1px solid var(--line-color); }
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 400; margin-bottom: 2rem; }
+
+        .team-section { padding: 6rem 5%; text-align: center; }
+        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
+        
+        .member-logo-box {
+            width: 160px; height: 160px; margin: 0 auto 1.5rem;
+            border: 1px solid var(--line-color); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; background: #000;
+            transition: all 150ms ease;
+        }
+        
+        .member-logo-box img { width: 100%; height: 100%; object-fit: contain; }
+        .member-card:hover .member-logo-box { transform: scale(1.05); border-color: #4361ee; }
+
+        @media (max-width: 768px) { .team-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body id="pageBody">
+
+    <nav>
+        <div class="logo-text">عمر</div>
+        <div class="controls">
+            <button id="langToggle">AR</button>
+            <button id="themeToggle">
+                <span class="en-text">Night Mode</span>
+                <span class="ar-text">الوضع الليلي</span>
+            </button>
+        </div>
+    </nav>
+
+    <main id="mainContent">
+        <header class="hero">
+            <h1>
+                <span class="en-text">Strategic Design.<br>Technical Precision.</span>
+                <span class="ar-text">تصميم استراتيجي.<br>دقة تقنية.</span>
+            </h1>
+        </header>
+
+        <section class="team-section">
+            <div class="team-grid">
+                <div class="member-card">
+                    <div class="member-logo-box">
+                        <img src="eyad.jpg" alt="Eyad">
+                    </div>
+                    <h3>Eyad</h3>
+                    <p class="en-text">Graphic Designer</p>
+                    <p class="ar-text">مصمم جرافيك</p>
+                </div>
+                <div class="member-card">
+                    <div class="member-logo-box">
+                        <img src="adham_logo.jpg" alt="Adham">
+                    </div>
+                    <h3>Adham</h3>
+                    <p class="en-text">Web Developer</p>
+                    <p class="ar-text">مطور ويب</p>
+                </div>
+                <div class="member-card">
+                    <div class="member-logo-box">
+                        <img src="omar_logo.jpg" alt="Omar">
+                    </div>
+                    <h3>Omar</h3>
+                    <p class="en-text">Web Developer</p>
+                    <p class="ar-text">مطور ويب</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const themeBtn = document.getElementById('themeToggle');
+        const langBtn = document.getElementById('langToggle');
+        const mainContent = document.getElementById('mainContent');
+
+        function triggerPulse(callback) {
+            mainContent.classList.add('switching');
+            setTimeout(() => {
+                callback();
+                mainContent.classList.remove('switching');
+            }, 150);
+        }
+
+        themeBtn.addEventListener('click', () => {
+            triggerPulse(() => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+            });
+        });
+
+        langBtn.addEventListener('click', () => {
+            triggerPulse(() => {
+                document.body.classList.toggle('lang-ar');
+                langBtn.textContent = document.body.classList.contains('lang-ar') ? 'EN' : 'AR';
+                document.documentElement.lang = document.body.classList.contains('lang-ar') ? 'ar' : 'en';
+            });
+        });
+    </script>
+</body>
+</html>
