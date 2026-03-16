@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Team</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #FDFCF9; 
+            --text-main: #1A1A1A;
+            --text-muted: #555555;
+            --line-color: rgba(0, 0, 0, 0.1);
+            --brand-gradient: linear-gradient(135deg, #7b2cbf, #4361ee); 
+            --font-en-serif: 'Playfair Display', serif;
+            --font-ar-serif: 'Amiri', serif;
+            --font-sans: 'Inter', sans-serif;
+            transition: all 150ms ease-in-out;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0D0D0F; 
+            --text-main: #FDFCF9;
+            --text-muted: #A0A0A0;
+            --line-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-en-serif);
+            line-height: 1.6;
+            transition: background-color 150ms ease, color 150ms ease;
+            opacity: 0; /* البداية باحتفاء عشان الانيماشن */
+            animation: fadeIn 0.8s ease forwards; /* انيماشن ظهور الصفحة */
+        }
+
+        /* --------------------------------- */
+        /* -------- Animations Definitions ------- */
+        /* --------------------------------- */
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* فئة عامة لإضافة الانيماشن للعناصر */
+        .animate-on-scroll {
+            opacity: 0; /* البداية باحتفاء */
+            animation: fadeInUp 0.8s ease forwards;
+            animation-play-state: paused; /* توقيف الانيماشن لحد ما تظهر في الشاشة */
+        }
+
+        /* --------------------------------- */
+        /* -------- Clicking Pulse Logic ------- */
+        /* --------------------------------- */
+        .switching { opacity: 0.7; transform: scale(0.995); }
+
+        /* --------------------------------- */
+        /* -------- Language Logic ------- */
+        /* --------------------------------- */
+        .ar-text { display: none; font-family: var(--font-ar-serif); }
+        body.lang-ar { direction: rtl; }
+        body.lang-ar .en-text { display: none; }
+        body.lang-ar .ar-text { display: inline-block; }
+
+        /* --------------------------------- */
+        /* -------- Navigation ------- */
+        /* --------------------------------- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2.5rem 5%;
+            border-bottom: 1px solid var(--line-color);
+        }
+
+        .logo-text {
+            font-size: 2.8rem;
+            font-family: var(--font-ar-serif);
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .controls button {
+            background: none; border: 1px solid var(--line-color);
+            color: var(--text-main); padding: 0.6rem 1.2rem;
+            cursor: pointer; font-family: var(--font-sans);
+            font-size: 0.75rem; text-transform: uppercase;
+            letter-spacing: 1px; margin-inline-start: 10px;
+            transition: all 150ms ease;
+        }
+
+        .controls button:hover { background: var(--line-color); }
+
+        /* --------------------------------- */
+        /* -------- Hero & Sections ------- */
+        /* --------------------------------- */
+        .hero { padding: 8rem 5%; border-bottom: 1px solid var(--line-color); }
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 400; margin-bottom: 2rem; }
+
+        .value-grid { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--line-color); }
+        .value-box { padding: 5rem 10%; }
+        .value-box:first-child { border-inline-end: 1px solid var(--line-color); }
+        
+        .value-box h2 { font-size: 1.8rem; margin-bottom: 1.5rem; font-weight: 400; }
+        .value-box p { font-family: var(--font-sans); color: var(--text-muted); font-size: 0.95rem; }
+
+        .work-section { padding: 6rem 5%; background: rgba(123, 44, 191, 0.02); border-bottom: 1px solid var(--line-color); }
+        .work-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; }
+        .work-content h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 400; max-width: 600px; }
+        
+        .project-btn {
+            padding: 1.2rem 2.5rem; background: var(--brand-gradient);
+            color: white; text-decoration: none; font-family: var(--font-sans);
+            font-size: 0.9rem; border-radius: 4px; font-weight: 500;
+            transition: all 300ms ease; /* انيماشن للتحويم */
+        }
+        .project-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        /* --------------------------------- */
+        /* -------- Team Section -------- */
+        /* --------------------------------- */
+        .team-section { padding: 6rem 5%; text-align: center; }
+        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
+        
+        /* تأثير التحويم على الكارد كله */
+        .member-card {
+            padding: 1.5rem; border-radius: 15px;
+            transition: all 400ms ease-in-out; /* انيماشن ناعم للتحويم */
+            cursor: pointer;
+        }
+        .member-card:hover {
+            background: rgba(67, 97, 238, 0.03); /* تغيير الباك-جروند */
+            transform: translateY(-5px); /* رفع الكارد قليلاً */
+        }
+        
+        .member-logo-box {
+            width: 160px; height: 160px; margin: 0 auto 1.5rem;
+            border: 1px solid var(--line-color); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; background: #000;
+            transition: all 400ms ease-in-out; /* انيماشن للصورة */
+        }
+        
+        .member-logo-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* تكبير الصورة وتغيير الانيماشن عند التحويم */
+        .member-card:hover .member-logo-box {
+            transform: scale(1.05); /* تكبير الصورة */
+            border-color: #4361ee;
+        }
+
+        /* --------------------------------- */
+        /* -------- Responsive Logic ------- */
+        /* --------------------------------- */
+        @media (max-width: 768px) { 
+            .value-grid, .team-grid { grid-template-columns: 1fr; } 
+            .value-box:first-child { border-inline-end: none; border-bottom: 1px solid var(--line-color); }
+        }
+    </style>
+</head>
+<body id="pageBody">
+
+    <nav>
+        <div class="logo-text">عمر</div>
+        <div class="controls">
+            <button id="langToggle">AR</button>
+            <button id="themeToggle">
+                <span class="en-text">Night Mode</span>
+                <span class="ar-text">الوضع الليلي</span>
+            </button>
+        </div>
+    </nav>
+
+    <main id="mainContent">
+        <header class="hero animate-on-scroll">
+            <h1>
+                <span class="en-text">Strategic Design.<br>Technical Precision.</span>
+                <span class="ar-text">تصميم استراتيجي.<br>دقة تقنية.</span>
+            </h1>
+        </header>
+
+        <section class="value-grid animate-on-scroll">
+            <div class="value-box">
+                <h2>
+                    <span class="en-text">Rapid Execution,<br>High Quality</span>
+                    <span class="ar-text">سرعة التنفيذ،<br>جودة عالية</span>
+                </h2>
+                <p>
+                    <span class="en-text">We deliver products with great quality in the least amount of time through optimized technical workflows.</span>
+                    <span class="ar-text">ننجز منتجاتنا بجودة عالية في أقل وقت ممكن من خلال دورات عمل تقنية محسنة.</span>
+                </p>
+            </div>
+            <div class="value-box">
+                <h2>
+                    <span class="en-text">True Value</span>
+                    <span class="ar-text">قيمة حقيقية</span>
+                </h2>
+                <p>
+                    <span class="en-text">We provide the highest quality in the market at a fair price, ensuring premium results for our clients.</span>
+                    <span class="ar-text">نقدم أعلى جودة في السوق بتكلفة عادلة، مما يضمن نتائج ممتازة لعملائنا.</span>
+                </p>
+            </div>
+        </section>
+
+        <section class="work-section animate-on-scroll">
+            <div class="work-content">
+                <h2>
+                    <span class="en-text">Explore our collective projects and digital innovations.</span>
+                    <span class="ar-text">استكشف مشاريعنا الجماعية وابتكاراتنا الرقمية.</span>
+                </h2>
+                <a href="#" class="project-btn">
+                    <span class="en-text">Team Website</span>
+                    <span class="ar-text">موقع الفريق</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="team-section animate-on-scroll">
+            <div class="team-grid">
+                <div class="member-card">
+                    <div class="member-logo-box">
+                        <img src="eyad.jpg" alt="Eyad">
+                    </div>
+                    <h3>Eyad</h3>
+                    <p class="en-text">Graphic Designer</p>
+                    <p class="ar-text">مصمم جرافيك</p>
+                </div>
+                <div class="member-card">
+                    <div class="member-logo-box">
+                        <img src="adham_logo.jpg" alt="Adham">
+                    </div>
+                    <h3>Adham</h3>
+                    <p class="en-text">Web Developer</p>
+                    <p class="ar-text">مطور ويب</p>
+                </div>
+                <div class="member-card">
+                    <div class="member-logo-box">
+                        <img src="omar_logo.jpg" alt="Omar">
+                    </div>
+                    <h3>Omar</h3>
+                    <p class="en-text">Web Developer</p>
+                    <p class="ar-text">مطور ويب</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const themeBtn = document.getElementById('themeToggle');
+        const langBtn = document.getElementById('langToggle');
+        const mainContent = document.getElementById('mainContent');
+
+        // دالة الـ Pulse للتأثير عند الضغط
+        function triggerPulse(callback) {
+            mainContent.classList.add('switching');
+            setTimeout(() => {
+                callback();
+                mainContent.classList.remove('switching');
+            }, 150);
+        }
+
+        themeBtn.addEventListener('click', () => {
+            triggerPulse(() => {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+                
+                themeBtn.querySelector('.en-text').textContent = isDark ? 'Night Mode' : 'Light Mode';
+                themeBtn.querySelector('.ar-text').textContent = isDark ? 'الوضع الليلي' : 'الوضع النهاري';
+            });
+        });
+
+        langBtn.addEventListener('click', () => {
+            triggerPulse(() => {
+                document.body.classList.toggle('lang-ar');
+                langBtn.textContent = document.body.classList.contains('lang-ar') ? 'EN' : 'AR';
+                document.documentElement.lang = document.body.classList.contains('lang-ar') ? 'ar' : 'en';
+            });
+        });
+
+        // تشغيل الانيماشن عند التمرير (Intersection Observer)
+        const observedElements = document.querySelectorAll('.animate-on-scroll');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running'; // تشغيل الانيماشن
+                    observer.unobserve(entry.target); // تشغيلها مرة واحدة فقط
+                }
+            });
+        }, { threshold: 0.1 }); // الانيماشن يبدأ لما يظهر 10% من العنصر
+
+        observedElements.forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>
